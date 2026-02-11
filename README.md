@@ -109,3 +109,39 @@ npm run dev
 - **Email Not Sending**: Ensure you are using an **App Password** for Gmail and that `spring.mail.username` matches the account generating the password.
 - **Port In Use**: Ensure ports `8080` (Backend) and `3000` (Frontend) are not taken by other applications.
 - **Maven/Java Errors**: If you have issues with Global Maven, use the `run-app.bat` script which handles a local Maven environment mostly automatically.
+
+## 🚀 Deployment Guide
+
+### 1. Frontend (GitHub Pages)
+The frontend is configured to deploy automatically to GitHub Pages via GitHub Actions.
+
+**Steps:**
+1. Go to your Repository **Settings** -> **Pages**.
+2. Under "Build and deployment", set **Source** to **GitHub Actions**.
+3. The workflow `.github/workflows/deploy-frontend.yml` will automatically build and deploy your site on every push to `main`.
+4. **Important**: By default, it connects to `localhost:8080`. To connect to a live backend:
+   - Go to **Settings** -> **Secrets and variables** -> **Actions** -> **Variables**.
+   - Add a new Repository Variable:
+     - Name: `NEXT_PUBLIC_API_URL`
+     - Value: `https://your-backend-url.onrender.com/api` (See Backend section below)
+
+### 2. Backend & Database (Render.com - Recommended Free Tier)
+GitHub Pages **cannot** host Java Backends or Databases. You must use a service like Render, Railway, or Heroku.
+
+**How to deploy to Render:**
+1. Create a [Render](https://render.com) account.
+2. **New > PostgreSQL** (Create a database). Copy the `Internal Database URL`.
+3. **New > Web Service** (Connect your GitHub repo).
+   - Root Directory: `backend`
+   - Runtime: **Docker** (It will use the `Dockerfile` we created).
+   - **Environment Variables**:
+     - `spring.datasource.url`: `jdbc:postgresql://...` (Replace `postgres://` with `jdbc:postgresql://` from the internal URL).
+     - `spring.datasource.username`: (from Render)
+     - `spring.datasource.password`: (from Render)
+     - `spring.mail.username`: (Your Gmail)
+     - `spring.mail.password`: (Your App Password)
+4. Deploy! Render will give you a backend URL (e.g., `https://task-reminder.onrender.com`).
+5. Go back to GitHub Variables and update `NEXT_PUBLIC_API_URL` with this URL.
+
+### 3. Final Step
+Once both are deployed, your Task Reminder App will be fully live on the internet! 🌍
