@@ -7,13 +7,7 @@ import NoteCard from "@/components/NoteCard";
 import NoteModal from "@/components/NoteModal";
 import Link from "next/link";
 
-interface Note {
-    id: number;
-    title: string;
-    description: string;
-    reminderTime: string;
-    status: 'PENDING' | 'DONE' | 'CANCELLED';
-}
+import { Note } from "@/types/note";
 
 export default function DashboardPage() {
     const { user, logout, loading } = useAuth();
@@ -47,7 +41,8 @@ export default function DashboardPage() {
         setIsModalOpen(true);
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id?: number) => {
+        if (!id) return;
         if (confirm("Are you sure you want to delete this note?")) {
             try {
                 await api.delete(`/notes/${id}`);
@@ -109,8 +104,8 @@ export default function DashboardPage() {
                                     key={status}
                                     onClick={() => setFilter(status)}
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === status
-                                            ? 'bg-blue-500 text-white'
-                                            : 'bg-white text-gray-600 hover:bg-gray-100'
+                                        ? 'bg-blue-500 text-white'
+                                        : 'bg-white text-gray-600 hover:bg-gray-100'
                                         }`}
                                 >
                                     {status}

@@ -1,18 +1,12 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-interface Note {
-    id: number;
-    title: string;
-    description: string;
-    reminderTime: string;
-    status: 'PENDING' | 'DONE' | 'CANCELLED';
-}
+import { Note } from "@/types/note";
 
 interface NoteCardProps {
     note: Note;
     onEdit: (note: Note) => void;
-    onDelete: (id: number) => void;
+    onDelete: (id?: number) => void;
 }
 
 const NoteCard: React.FC<NoteCardProps> = ({ note, onEdit, onDelete }) => {

@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-interface Note {
-    id?: number;
-    title: string;
-    description: string;
-    reminderTime: string;
-    status: 'PENDING' | 'DONE' | 'CANCELLED';
-}
+import { Note } from "@/types/note";
 
 interface NoteModalProps {
     isOpen: boolean;
