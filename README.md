@@ -151,3 +151,39 @@ GitHub Pages **cannot** host Java Backends or Databases. You must use a service 
 
 ### 3. Final Step
 Once both are deployed, your Task Reminder App will be fully live on the internet! 🌍
+
+## 🐳 Docker Configuration
+
+The backend is containerized using **Docker** to ensure consistency across different environments (Dev, Test, Production).
+
+**How it works (`backend/Dockerfile`):**
+1.  **Multi-Stage Build**:
+    - **Stage 1 (Build)**: Uses a `maven` image to compile the Java code and package it into a `.jar` file. This means you don't even need Maven installed on your host machine to build the image.
+    - **Stage 2 (Run)**: Uses a lightweight `eclipse-temurin:17-jre-alpine` image to run the application. This keeps the final image size small and secure.
+2.  **Deployment**: This Docker image is what platforms like **Render** use to run your backend.
+
+## 🏗️ Architecture & How It Works
+
+This application follows a **Client-Server** architecture with a background scheduler.
+
+### 1. 🌐 The Flow
+1.  **User Action**: User creates a Task/Note on the **Next.js Frontend**.
+2.  **API Request**: Frontend sends a `POST` request to the **Spring Boot Backend** (`/api/notes`).
+3.  **Processing**:
+    - `NoteController` receives the request.
+    - `NoteService` processes the business logic.
+    - `NoteRepository` saves the data to **PostgreSQL**.
+4.  **Feedback**: The server responds with the created note, and the UI updates.
+
+### 2. ⏰ The Reminder System (Background Job)
+The application has a background worker that runs automatically to send email reminders.
+
+- **Component**: `NoteScheduler.java`
+- **Frequency**: Runs **every minute**.
+- **Logic**:
+    1.  Checks the database for tasks that are:
+        - Status: `PENDING`
+        - Reminder Time: `Before Now` (Due)
+        - Reminder Sent: `False`
+    2.  If found, it calls `EmailService` to send an email to the user.
+    3.  Marks the task as `reminderSent = true` to prevent duplicate emails.
