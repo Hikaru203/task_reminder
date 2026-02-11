@@ -125,6 +125,12 @@ The frontend is configured to deploy automatically to GitHub Pages via GitHub Ac
      - Name: `NEXT_PUBLIC_API_URL`
      - Value: `https://your-backend-url.onrender.com/api` (See Backend section below)
 
+**Troubleshooting:**
+- **Error "Failed to create deployment (status: 404)"**:
+  - Go to **Settings** -> **Pages**.
+  - Ensure **Source** is set to **GitHub Actions** (NOT "Deploy from a branch").
+  - If it was wrong, change it and re-run the failed Action or push a small change.
+
 ### 2. Backend & Database (Render.com - Recommended Free Tier)
 GitHub Pages **cannot** host Java Backends or Databases. You must use a service like Render, Railway, or Heroku.
 
