@@ -2,6 +2,15 @@
 
 A full-stack application for managing tasks and notes with automated email reminders. Built with Spring Boot (Backend) and Next.js (Frontend).
 
+
+### 🌍 Live Demo: [Task Reminder App](https://hikaru203.github.io/task_reminder/login)
+
+> [!IMPORTANT]
+> **Please Read Before Testing:**
+> 1. **Backend Cold Start**: The backend is hosted on **Render Free Tier**. If it has been inactive, the first request (Login/Signup) may take **50-60 seconds** to wake up. Please be patient! ⏳
+> 2. **Account Required**: You need to **Sign Up** for a new account to use the app.
+> 3. **Email**: If you test the reminder feature, check your **Spam folder** for emails.
+
 ## 🚀 Tech Stack
 
 **Backend:**
